@@ -4,6 +4,9 @@
 # Editor-based HTTP Client requests
 /httpRequests/
 
-.env
-node_modules
-/.idea
+.idea/
+node_modules/
+.gitignore
+.idea/.gitignore
+*.iml
+*.xml
