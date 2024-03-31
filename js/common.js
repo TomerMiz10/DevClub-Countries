@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
          const res = await axios.get('https://restcountries.com/v3.1/all');
          countriesData = res.data;
          if(countriesData){
+            countriesData.sort((a, b) => a.name.common.localeCompare(b.name.common));
             loader.style.display = 'none';
             renderCountries(countriesData);
          }
