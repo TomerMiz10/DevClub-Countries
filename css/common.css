@@ -260,6 +260,44 @@ body.dark-theme .filters .search-input::placeholder {
   color: white;
 }
 
+.dropdown-wrapper {
+  position: relative;
+}
+
+.dropdown-header {
+  cursor: pointer;
+  /* other styles as needed */
+}
+
+.dropdown-header.active {
+  display: grid;
+    visibility: visible;
+}
+
+.dropdown-body {
+  /*display: none;*/
+  position: absolute;
+  width: 100%;
+  z-index: auto;
+  /* other styles as needed */
+}
+
+.dropdown-body.show{
+  display: grid;
+  visibility: visible;
+  z-index: 1000;
+}
+.dropdown-body .show .continent-list{
+  display: grid;
+  visibility: visible;
+  z-index: 1000;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  overflow: visible;
+}
+
 body.dark-theme .filters .dropdown-header,
 body.dark-theme .filters .dropdown-body {
   background: #2b3945;
