@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (countryName) {
         loader.style.display = 'none';
-        // Function to fetch details of the specified country
         const fetchCountryDetails = async (countryName) => {
             try {
                 const res = await axios.get(`https://restcountries.com/v3.1/name/${countryName}`);
@@ -20,23 +19,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         };
 
-        // Function to render country details on the page
         const renderCountryDetails = (country) => {
             const countryDetailsContainer = document.querySelector('.country-details');
 
             // Check if the properties exist in the country object
-            const flagSrc = country.flags ? country.flags.png : ''; // Check if flags property exists
-            const population = country.population || 'N/A'; // Check if population property exists
-            const capital = country.capital[0] || 'N/A'; // Check if capital property exists
+            const countryName = country.name ? country.name.common : 'N/A';
+            const flagSrc = country.flags ? country.flags.png : '';
+            const population = country.population ? numberWithCommas(country.population) : 'N/A';
+            const continent = country.continents ? country.continents[0] : 'N/A';
+            const capital = country.capital[0] || 'N/A';
+            const languages = country.languages ? Object.values(country.languages).join(', ') : 'N/A';
+            const subregion = country.subregion || 'N/A';
+            const currencies = country.currencies
+                ? `${Object.values(country.currencies)[0].name} (${Object.values(country.currencies)[0].symbol})`
+                : 'N/A';
+
 
             // Construct HTML to display country details
             countryDetailsContainer.innerHTML = `
-                <h2>${country.name.common}</h2>
-                <img src="${flagSrc}" alt="${country.name.common} Flag" />
-                <p>Population: ${population}</p>
-                <p>Region: ${country.region}</p>
-                <p>Capital: ${capital}</p>
-                <!-- Add more details as needed -->
+                <p><strong>Country Name</strong> ${countryName}
+                    <br>
+                    <img src="${flagSrc}" alt="${countryName} Flag" class="flag-image"/>
+                    <p><strong>Population:</strong> ${population}</p>
+                    <p><strong>Continent:</strong> ${continent}</p>
+                    <p><strong>Capital:</strong> ${capital}</p>
+                    <p><strong>Languages:</strong> ${languages}</p>
+                    <p><strong>Subregion:</strong> ${subregion}</p>
+                    <p><strong>Currencies:</strong> ${currencies}</p>
+                </p>                
             `;
         };
 
@@ -46,3 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('Country name is not provided.');
     }
 });
+
+const numberWithCommas = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
