@@ -1,6 +1,5 @@
 import axios from 'https://cdn.skypack.dev/axios';
 
-
 document.addEventListener('DOMContentLoaded', async () => {
    const searchInput = document.querySelector('.search-input');
    let countriesData;
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
          countriesData = res.data;
          if(countriesData){
             loader.style.display = 'none';
-            console.log(countriesData);
             renderCountries(countriesData);
          }
       } catch (err) {
@@ -54,7 +52,6 @@ document.addEventListener('DOMContentLoaded', async () => {
          countryElement.href = `details.html?country=${encodeURIComponent(country.name.common)}`;
          countryElement.setAttribute('data-country-name', country.name.common);
 
-         // Add event listener to handle click on country
          countryElement.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default behavior of anchor tag
             console.log(`Clicked on ${country.name.common}`); // Log the clicked country
@@ -69,7 +66,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
    };
 
-   // event listener for search input
    searchInput.addEventListener('input', (e) => {
       const searchValue = e.target.value.trim();
       const filteredCountries = filterCountriesBySearch(searchValue);
@@ -89,3 +85,12 @@ document.addEventListener('DOMContentLoaded', async () => {
    await fetchData();
 });
 
+const themeToggle = document.querySelector('.theme-toggle');
+const body = document.body;
+
+if(themeToggle){
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+    });
+
+}
