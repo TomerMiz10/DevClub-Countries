@@ -50,7 +50,9 @@
       <div class="container">
         <div class="search-wrapper">
           <i class="fa-regular fa-magnifying-glass search-icon"></i>
-          <input type="text" class="search-input" placeholder="Search for a country..." />
+          <label for="search-bar">
+            <input id="search-bar" type="text" class="search-input" placeholder="Search for a country..." />
+          </label>
         </div>
         <div class="dropdown-wrapper">
           <div class="dropdown-header flex flex-jc-sb flex-ai-c">
@@ -132,5 +134,8 @@
         </section>
       </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/common.js" type="module"></script>
+
   </body>
 </html>
