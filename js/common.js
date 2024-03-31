@@ -92,5 +92,4 @@ if(themeToggle){
     themeToggle.addEventListener('click', () => {
         body.classList.toggle('dark-theme');
     });
-
 }

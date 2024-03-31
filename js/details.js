@@ -2,7 +2,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const searchParams = new URLSearchParams(window.location.search);
     const countryName = searchParams.get('country');
-    console.log(countryName);
 
     const loader = document.querySelector('.loader');
 
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const res = await axios.get(`https://restcountries.com/v3.1/name/${countryName}`);
                 const countryDetails = res.data[0];
-                console.log(countryDetails);
                 renderCountryDetails(countryDetails);
             } catch (err) {
                 console.log('Error fetching country details: ' + err.message);
@@ -59,4 +57,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 const numberWithCommas = (number) => {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+const themeToggle = document.querySelector('.theme-toggle');
+const body = document.body;
+
+if(themeToggle){
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+    });
 }
