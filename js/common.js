@@ -24,15 +24,13 @@ document.addEventListener('DOMContentLoaded', async () => {
    const filterCountriesBySearch = (searchInput) => {
       if (!searchInput) return countriesData;
       searchInput = searchInput.toLowerCase();
-      const filteredCountries = countriesData.filter(country => {
+      return countriesData.filter(country => {
          return country.name.common.toLowerCase().includes(searchInput);
       });
-      console.log(filteredCountries);
-      return filteredCountries;
    };
 
    // function to filter countries by region
-   const filterCountriesByRegion = (region) => {
+   const filterCountriesByContinent = (region) => {
       return countriesData.filter(country =>
          region === 'all' || country.region.toLowerCase() === region.toLowerCase());
    };
@@ -47,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       countriesContainer.innerHTML = '';
 
-      countries.forEach(country =>{
+      countries.forEach(country => {
          const countryElement = document.createElement('a');
          countryElement.classList.add('country', 'scale-effect');
          countryElement.href = `details.html?country=${encodeURIComponent(country.name.common)}`;
@@ -60,7 +58,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             window.location.href = countryElement.href;
          });
 
-         countryElement.innerHTML = `<div class="country-flag"><img src="${country.flags.png}" alt="${country.name.common} Flag" /></div>`;
+         const flagUrl = country.flags && country.flags.png ? country.flags.png : 'N/A';
+         countryElement.innerHTML = `<div class="country-flag"><img src="${flagUrl}" alt="${country.name.common} Flag" /></div>`;
          countryElement.innerHTML += `<div class="country-info"><h2 class="country-title">${country.name.common}</h2></div>`;
 
          countriesContainer.appendChild(countryElement);
@@ -74,14 +73,28 @@ document.addEventListener('DOMContentLoaded', async () => {
    });
 
    // event listener for dropdown select <-> region
-   const dropdownItems = document.querySelectorAll('.dropdown-body li');
+   const dropdownItems = document.querySelectorAll('.dropdown-body .continent-list li');
+   console.log('Dropdown items:', dropdownItems);
+   console.log(dropdownItems.values());
    dropdownItems.forEach(item => {
-      item.addEventListener('click', () => {
-         const region = this.getAttribute('data-region');
-         const filteredCountries = filterCountriesByRegion(region);
+      item.addEventListener('click', (e) => {
+         const continent = e.target.getAttribute('data-region');
+         console.log('Selected region:', continent);
+         const filteredCountries = filterCountriesByContinent(continent);
+         console.log('Filtered countries:', filteredCountries);
          renderCountries(filteredCountries);
       });
    });
+
+   const dropdownHeader = document.querySelector('.dropdown-header');
+   const dropdownBody = document.querySelector('.dropdown-body');
+   dropdownHeader.addEventListener('click', () => {
+      console.log('clicked');
+      dropdownHeader.classList.toggle('active');
+      dropdownBody.classList.toggle('show');
+
+   });
+
    // init the page
    await fetchData();
 });
