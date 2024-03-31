@@ -4,3 +4,4 @@ node_modules/
 .idea/.gitignore
 *.iml
 *.xml
+gitignore
