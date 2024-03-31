@@ -5,13 +5,17 @@ document.addEventListener('DOMContentLoaded', async () => {
    const searchInput = document.querySelector('.search-input');
    let countriesData;
 
+   const loader = document.querySelector('.loader');
    // fetch url of rest-countries API
    const fetchData = async () => {
       try{
          const res = await axios.get('https://restcountries.com/v3.1/all');
          countriesData = res.data;
-         console.log(countriesData);
-         renderCountries(countriesData);
+         if(countriesData){
+            loader.style.display = 'none';
+            console.log(countriesData);
+            renderCountries(countriesData);
+         }
       } catch (err) {
          console.log('Error fetching: ' + err.message);
       }
