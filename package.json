@@ -1,0 +1,15 @@
+{
+  "name": "promise-countries",
+  "version": "1.0.0",
+  "description": "<h1>API - https://restcountries.com/#endpoints-filter-response</h1>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8"
+  }
+}
