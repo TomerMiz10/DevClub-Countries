@@ -225,3 +225,22 @@
     margin-bottom: 15px;
   }
 }
+
+.dropdown-body {
+  position: absolute;
+  width: 250px;
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  margin-top: 0.3rem;
+  background: white;
+  transition: all 0.1s cubic-bezier(0.16, 1, 0.5, 1);
+  transform: translateY(0.5rem);
+  visibility: hidden;
+  opacity: 0;
+}
+
+.dropdown-body.show {
+  transform: translateY(0rem);
+  visibility: visible;
+  opacity: 1;
+}
