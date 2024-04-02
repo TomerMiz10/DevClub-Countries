@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             try {
                 const res = await axios.get(COUNTRY_BY_NAME_URL);
                 const countryDetails = res.data[0];
-                console.log(countryDetails);
                 renderCountryDetails(countryDetails);
             } catch (err) {
                 console.log('Error fetching country details: ' + err.message);
