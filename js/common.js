@@ -1,41 +1,30 @@
 import axios from 'https://cdn.skypack.dev/axios';
 
-
 document.addEventListener('DOMContentLoaded', async () => {
-   const searchInput = document.querySelector('.search-input');
-   let countriesData;
+   let allCountries = [];
+   let filteredCountries = [];
 
-   // fetch url of rest-countries API
+   const dropdownHeader = document.querySelector('.dropdown-header');
+   const dropdownBody = document.querySelector('.dropdown-body');
+   const continentList = document.querySelector('.continent-list');
+
    const fetchData = async () => {
       try{
          const res = await axios.get('https://restcountries.com/v3.1/all');
-         countriesData = res.data;
-         console.log(countriesData);
-         renderCountries(countriesData);
+         allCountries = res.data;
+         filteredCountries = allCountries;
+
+         if(allCountries){
+            document.querySelector('.loader').style.display = 'none';
+            renderCountries(allCountries);
+            initListeners();
+         }
       } catch (err) {
          console.log('Error fetching: ' + err.message);
       }
    };
 
-   // function to filter countries by search input
-   const filterCountriesBySearch = (searchInput) => {
-      if (!searchInput) return countriesData;
-      searchInput = searchInput.toLowerCase();
-      const filteredCountries = countriesData.filter(country => {
-         return country.name.common.toLowerCase().includes(searchInput);
-      });
-      console.log(filteredCountries);
-      return filteredCountries;
-   };
-
-   // function to filter countries by region
-   const filterCountriesByRegion = (region) => {
-      return countriesData.filter(country =>
-         region === 'all' || country.region.toLowerCase() === region.toLowerCase());
-   };
-
-   // function to render countries
-   const renderCountries = (countries = countriesData) => {
+   const renderCountries = (countries) => {
       const countriesContainer = document.querySelector('.countries-grid');
       if (!countriesContainer) {
          console.error('Countries container not found');
@@ -43,44 +32,140 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       countriesContainer.innerHTML = '';
+      const numberWithCommas = (number) => number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-      countries.forEach(country =>{
+      countries.forEach(country => {
          const countryElement = document.createElement('a');
          countryElement.classList.add('country', 'scale-effect');
          countryElement.href = `details.html?country=${encodeURIComponent(country.name.common)}`;
          countryElement.setAttribute('data-country-name', country.name.common);
 
-         // Add event listener to handle click on country
          countryElement.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default behavior of anchor tag
-            console.log(`Clicked on ${country.name.common}`); // Log the clicked country
-            // Navigate to details page with country data
+            event.preventDefault();
             window.location.href = countryElement.href;
          });
 
-         countryElement.innerHTML = `<div class="country-flag"><img src="${country.flags.png}" alt="${country.name.common} Flag" /></div>`;
-         countryElement.innerHTML += `<div class="country-info"><h2 class="country-title">${country.name.common}</h2></div>`;
-
+         const flagUrl = country.flags && country.flags.png ? country.flags.png : 'N/A';
+         countryElement.innerHTML = `
+                <img src="${flagUrl}" alt="${country.name.common}" class="flag">
+                <div class="country-info">
+                    <h3>${country.name.common}</h3>
+                    <p>Population: ${numberWithCommas(country.population)}</p>
+                </div>
+            `;
          countriesContainer.appendChild(countryElement);
       });
    };
 
-   // event listener for search input
-   searchInput.addEventListener('input', (e) => {
-      const searchValue = e.target.value.trim();
-      const filteredCountries = filterCountriesBySearch(searchValue);
-      renderCountries(filteredCountries);
-   });
+   const filterCountriesBySearch = (searchInput) => {
+      if (!searchInput) return allCountries;
+      searchInput = searchInput.toLowerCase();
+      return allCountries.filter(country => {
+         return country.name.common.toLowerCase().includes(searchInput);
+      });
+   };
 
-   // event listener for dropdown select <-> region
-   const dropdownItems = document.querySelectorAll('.dropdown-body li');
-   dropdownItems.forEach(item => {
-      item.addEventListener('click', () => {
-         const region = this.getAttribute('data-region');
-         const filteredCountries = filterCountriesByRegion(region);
+   const filterCountriesByContinent = (region) => {
+      if (region === 'All') {
+         return allCountries;
+      } else {
+         return allCountries.filter(country => {
+            return country.continents && country.continents[0] === region;
+         });
+      }
+   };
+
+   const sortCountriesByPopulation = (countries) => {
+      return countries.sort((a, b) => b.population - a.population);
+   };
+
+   const sortCountriesByName = (countries) => {
+        return countries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+   }
+
+
+   const initListeners = () => {
+      dropdownListener();
+      searchListener();
+      populationListener();
+      nameListener();
+      darkThemeListener();
+   };
+
+
+   const dropdownListener = () => {
+      const toggleDropdown = () => {
+         dropdownBody.classList.toggle('show');
+         continentList.style.display = continentList.style.display ===
+         'list-item' ? 'none' : 'list-item';
+      }
+
+      dropdownHeader.addEventListener('click', () => {
+         toggleDropdown();
+      });
+
+      const dropdownItems = continentList.querySelectorAll('li');
+      dropdownItems.forEach(item => {
+         item.addEventListener('click', () => {
+            const selectedRegion = item.dataset.region;
+            filteredCountries = filterCountriesByContinent(selectedRegion);
+            renderCountries(filteredCountries);
+         });
+      });
+
+      document.addEventListener('click', (event) => {
+         const isDropdownClicked = dropdownHeader.contains(event.target)
+            || dropdownBody.contains(event.target);
+            if (!isDropdownClicked) {
+                dropdownBody.classList.remove('show');
+            }
+      });
+   }
+
+   const searchListener = () =>{
+      const searchInput = document.querySelector('.search-input');
+      searchInput.addEventListener('input', (e) => {
+         const searchValue = e.target.value.trim();
+         filteredCountries = filterCountriesBySearch(searchValue);
          renderCountries(filteredCountries);
       });
-   });
+   }
+
+   const populationListener = () => {
+      const populationSortButton = document.createElement('button');
+      populationSortButton.type = 'button';
+      populationSortButton.textContent = 'Sort by Population';
+      populationSortButton.classList.add('button', 'sort-by-population');
+      populationSortButton.addEventListener('click', () => {
+         sortCountriesByPopulation(filteredCountries);
+         renderCountries(filteredCountries);
+      });
+      document.querySelector('.filters').appendChild(populationSortButton);
+   }
+
+   const nameListener = () => {
+        const nameSortButton = document.createElement('button');
+        nameSortButton.type = 'button';
+        nameSortButton.textContent = 'Sort by Name';
+        nameSortButton.classList.add('button', 'sort-by-name');
+        nameSortButton.addEventListener('click', () => {
+             sortCountriesByName(filteredCountries);
+             renderCountries(filteredCountries);
+        });
+        document.querySelector('.filters').appendChild(nameSortButton);
+   }
+
+   const darkThemeListener = () => {
+      const themeToggle = document.querySelector('.theme-toggle');
+
+      if(themeToggle){
+         themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+         });
+      }
+   }
+
+
    // init the page
    await fetchData();
 });

@@ -307,3 +307,33 @@ body.dark-theme .country-info li {
 body.dark-theme .country-info strong {
   color: white;
 }
+
+.sort-by-population {
+  background-color: #3f51b5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+.sort-by-population:hover {
+  background-color: #303f9f;
+}
+
+.sort-by-name {
+  background-color: #3f51b5;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+.sort-by-name:hover {
+  background-color: #303f9f;
+}

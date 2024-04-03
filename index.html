@@ -44,6 +44,13 @@
         </button>
       </div>
     </header>
+
+    <!--Loader-->
+    <div class="loader">
+      <div class="spinner">
+        <i class="fa-regular fa-circle-notch fa-spin icon"></i>
+      </div>
+    </div>
     <!-- Filters -->
 
     <section class="filters">
@@ -60,13 +67,14 @@
             <i class="fa-regular fa-chevron-down icon"></i>
           </div>
           <div class="dropdown-body">
-            <ul>
-              <li data-region="all">all</li>
-              <li data-region="africa">africa</li>
-              <li data-region="americas">america</li>
-              <li data-region="asia">asia</li>
-              <li data-region="europe">europe</li>
-              <li data-region="oceania">oceania</li>
+            <ul class="continent-list">
+              <li data-region="All">All</li>
+              <li data-region="Africa">Africa</li>
+              <li data-region="South America">South America</li>
+              <li data-region="North America">North America</li>
+              <li data-region="Asia">Asia</li>
+              <li data-region="Europe">Europe</li>
+              <li data-region="Oceania">Oceania</li>
             </ul>
           </div>
         </div>
@@ -76,61 +84,6 @@
     <main class="main">
       <div class="container">
         <section class="countries-grid">
-          <a href="#" class="country scale-effect" data-country-name="Afghanistan">
-            <div class="country-flag">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg"
-                alt="Afghanistan FLag"
-              />
-            </div>
-            <div class="country-info">
-              <h2 class="country-title">Afghanistan</h2>
-              <ul class="country-brief">
-                <li><strong>population: </strong>40218234</li>
-                <li><strong>Region: </strong>Asia</li>
-                <li><strong>capital: </strong>Kabul</li>
-              </ul>
-            </div>
-          </a>
-          <a href="#" class="country scale-effect" data-country-name="Åland Islands">
-            <div class="country-flag">
-              <img src="https://flagcdn.com/ax.svg" alt="Åland Islands FLag" />
-            </div>
-            <div class="country-info">
-              <h2 class="country-title">Åland Islands</h2>
-              <ul class="country-brief">
-                <li><strong>population: </strong>28875</li>
-                <li><strong>Region: </strong>Europe</li>
-                <li><strong>capital: </strong>Mariehamn</li>
-              </ul>
-            </div>
-          </a>
-          <a href="#" class="country scale-effect" data-country-name="Aruba">
-            <div class="country-flag">
-              <img src="https://flagcdn.com/aw.svg" alt="Aruba FLag" />
-            </div>
-            <div class="country-info">
-              <h2 class="country-title">Aruba</h2>
-              <ul class="country-brief">
-                <li><strong>population: </strong>106766</li>
-                <li><strong>Region: </strong>Americas</li>
-                <li><strong>capital: </strong>Oranjestad</li>
-              </ul>
-            </div>
-          </a>
-          <a href="#" class="country scale-effect" data-country-name="Belize">
-            <div class="country-flag">
-              <img src="https://flagcdn.com/bz.svg" alt="Belize FLag" />
-            </div>
-            <div class="country-info">
-              <h2 class="country-title">Belize</h2>
-              <ul class="country-brief">
-                <li><strong>population: </strong>397621</li>
-                <li><strong>Region: </strong>Americas</li>
-                <li><strong>capital: </strong>Belmopan</li>
-              </ul>
-            </div>
-          </a>
         </section>
       </div>
     </main>

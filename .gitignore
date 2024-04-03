@@ -1,5 +1,7 @@
 .idea/
 node_modules/
 .gitignore
+.idea/.gitignore
 *.iml
 *.xml
+gitignore
